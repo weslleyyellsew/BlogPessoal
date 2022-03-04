@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/postagens")
-@CrossOrigin("*")
+@RestController//--> indica que essa clase é um controlador
+@RequestMapping("/postagens")//--> URI - identificador 
+@CrossOrigin("*")//--> essa classe vai aceitrar requisição de outras origens
 
 public class PostagemController {
 
 	
-	@Autowired
+	/*ingetar*/	@Autowired//--> todos os serviços do repository será acessado pelo controller -->  fornece controle sobre onde e como a ligação entre os beans deve ser realizada
 	private PostagemRpository repository;
 	
 	@GetMapping
