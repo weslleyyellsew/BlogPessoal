@@ -1,4 +1,5 @@
-package org.generation.blogPessoal.model; //-->Entregar uma resposta para o cliente.
+package org.generation.blogPessoal.model;
+
 
 public class UserLogin {
 

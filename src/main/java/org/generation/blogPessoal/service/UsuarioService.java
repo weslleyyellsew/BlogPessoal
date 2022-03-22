@@ -4,8 +4,8 @@ import java.nio.charset.Charset;
 import java.util.Optional;
 
 import org.apache.commons.codec.binary.Base64;
-import org.generation.blogPessoal.model.UserLogin;
 import org.generation.blogPessoal.model.Usuario;
+import org.generation.blogPessoal.model.UserLogin;
 import org.generation.blogPessoal.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,13 +17,13 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository repository;
 
-	public Usuario CadastroUsuario (Usuario usuario) {
+	public Optional<Usuario> CadastroUsuario (Usuario usuario) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		String senhaEncoder = encoder.encode(usuario.getSenha()); //--> pssar a senha ue veio dentro do objeto usuario.
 		usuario.setSenha(senhaEncoder);//--> senha cripitada.
 		
-		 return repository.save(usuario);//--> salva a senha já Encriptado.
+		 return Optional.of(repository.save(usuario));//--> salva a senha já Encriptado.
 	}
 	
 	public Optional<UserLogin> Logar(Optional<UserLogin> user){
@@ -36,10 +36,10 @@ public class UsuarioService {
 			String auth = user.get().getUsuario() + ":" + user.get().getSenha();
 			
 			byte[] encoderAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
-			String authHeader = "Basic" + new String(encoderAuth);
+			String authHeader = "Basic " + new String(encoderAuth);
 			
 			user.get().setToken(authHeader);
-			user.get().setNome(usuario.get().getNome());
+			user.get().setNome(usuario.get().getNome()); 
 			
 			return user;
 		}

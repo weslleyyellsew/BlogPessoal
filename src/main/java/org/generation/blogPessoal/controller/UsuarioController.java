@@ -2,8 +2,10 @@ package org.generation.blogPessoal.controller;
 
 import java.util.Optional;
 
-import org.generation.blogPessoal.model.UserLogin;
+import javax.validation.Valid;
+
 import org.generation.blogPessoal.model.Usuario;
+import org.generation.blogPessoal.model.UserLogin;
 import org.generation.blogPessoal.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +31,10 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/cadastrar")
-	public ResponseEntity<Usuario> Post(@RequestBody Usuario usuario){
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(usuarioService.CadastroUsuario(usuario));
+	public ResponseEntity<Usuario> postUsuario(@Valid @RequestBody Usuario usuario){
+		return usuarioService.CadastroUsuario(usuario)
+				.map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
+				.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+		
 	}
 }
